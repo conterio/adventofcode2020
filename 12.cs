@@ -71,7 +71,30 @@ namespace AdventOfCode
 						north = north + (unitsNorth * command.Item2);
 						break;
 				}
+				if (Math.Abs(unitsEast) > Math.Abs(unitsNorth))
+				{
+					if (unitsEast > 0)
+					{
+						UpdateFacing(Facing.East);
+					}
+					else
+					{
+						UpdateFacing(Facing.West);
+					}
+				}
+				else
+				{
+					if (unitsNorth > 0)
+					{
+						UpdateFacing(Facing.North);
+					}
+					else
+					{
+						UpdateFacing(Facing.South);
+					}
+				}
 			}
+
 		}
 
 		private void ChangeUnits()
@@ -85,16 +108,16 @@ namespace AdventOfCode
 						case Facing.North:
 							temp = unitsEast;
 							unitsEast = unitsNorth;
-							unitsNorth = Math.Abs(temp);
+							unitsNorth = -temp;//negate
 							break;
 						case Facing.South:
 							temp = unitsEast;
 							unitsEast = Math.Abs(unitsNorth);
-							unitsNorth = temp;
+							unitsNorth = temp;//dont negate
 							break;
 						case Facing.West:
 							unitsEast = Math.Abs(unitsEast);
-							unitsNorth = Math.Abs(unitsNorth);
+							unitsNorth = -unitsNorth;//negate
 							break;
 					}
 					break;
@@ -103,16 +126,16 @@ namespace AdventOfCode
 					{
 						case Facing.East:
 							temp = unitsEast;
-							unitsEast = -unitsNorth;
-							unitsNorth = temp;
+							unitsEast = -unitsNorth;//negate
+							unitsNorth = temp;//temp should always be positive
 							break;
 						case Facing.South:
-							unitsEast = -unitsEast;
-							unitsNorth = Math.Abs(unitsNorth);
+							unitsEast = -unitsEast;//negate
+							unitsNorth = Math.Abs(unitsNorth);//units norht should always be negative
 							break;
 						case Facing.West:
 							temp = unitsEast;
-							unitsEast = unitsNorth;
+							unitsEast = unitsNorth;//dont negate
 							unitsNorth = Math.Abs(temp);
 							break;
 					}
@@ -122,17 +145,17 @@ namespace AdventOfCode
 					{
 						case Facing.East:
 							temp = unitsEast;
-							unitsEast = unitsNorth;
-							unitsNorth = -temp;
+							unitsEast = unitsNorth;//dont negate
+							unitsNorth = -temp;//temp should always be positive
 							break;
 						case Facing.North:
-							unitsEast = Math.Abs(unitsEast);
-							unitsNorth = -unitsNorth;
+							unitsEast = -unitsEast;//negate
+							unitsNorth = -unitsNorth;//negate
 							break;
 						case Facing.West:
 							temp = unitsEast;
-							unitsEast = Math.Abs(unitsNorth);
-							unitsNorth = -temp;
+							unitsEast = -unitsNorth;//negate
+							unitsNorth = temp;
 							break;
 					}
 					break;
@@ -145,13 +168,13 @@ namespace AdventOfCode
 							break;
 						case Facing.North:
 							temp = unitsEast;
-							unitsEast = -unitsNorth;
-							unitsNorth = temp;
+							unitsEast = -unitsNorth;//untisnorth should be positive
+							unitsNorth = temp;//dont negate
 							break;
 						case Facing.South:
 							temp = unitsEast;
 							unitsEast = unitsNorth;
-							unitsNorth = -temp;
+							unitsNorth = -temp;//negate
 							break;
 					}
 					break;
@@ -167,6 +190,20 @@ namespace AdventOfCode
 			North,
 			South,
 			West
+		}
+
+		private void UpdateFacing(Facing newFacing)
+		{
+			facing = newFacing;
+			if (newFacing == Facing.North)
+				currentAngle = 0;
+			if (newFacing == Facing.East)
+				currentAngle = 90;
+			if (newFacing == Facing.South)
+				currentAngle = 180;
+			if (newFacing == Facing.West)
+				currentAngle = 270;
+
 		}
 
 		private Facing ChangeFacing(int angle)
