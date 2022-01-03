@@ -8,8 +8,8 @@ namespace AdventOfCode
 {
 	public class _10
 	{
-		//get indexes that meet citeria			
-			//if none set the value of that index to 1 - go on to next index				
+		//get indexes that meet citeria
+			//if none set the value of that index to 1 - go on to next index
 			//if more return the the sum of all of them
 		public static ulong total;
 
